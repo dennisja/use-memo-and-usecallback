@@ -1,0 +1,12 @@
+{
+  "name": "memo-hooks",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "mdx-deck src/slides/deck.mdx"
+  },
+  "devDependencies": {
+    "mdx-deck": "^4.1.1"
+  }
+}
