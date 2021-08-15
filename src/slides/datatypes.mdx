@@ -1,0 +1,127 @@
+import { Notes } from 'mdx-deck';
+
+
+JavaScript data types and structures
+
+Primitive types
+- undefined (typeof instance === "undefined")
+- Boolean (typeof instance === "boolean")
+- Number (typeof instance === "number")
+- String (typeof instance === "string")
+- Bigint (typeof instance === "bigint")
+- Symbol (typeof instance === "symbol")
+
+<Notes>
+The latest version of ECMA script defines 9 data types and structures in built into JavaScript
+These can be categorized into:- Primitive types, Structural types and the Structural Root primitive
+</Notes>
+
+---
+
+Structural types
+
+- Object (typeof instance === "object")
+- Function (typeof instance === "function")
+
+<Notes>
+Define containers of primitive or structural types. <br/><br/>
+Object - (a structural type for any constructed object instance i.e new Object, new Array, new Map e.t.c almost everything made with `new` key word). <br/><br/>
+Function - non-data structure. Though every function is derived from the Object constructor
+</Notes>
+
+---
+
+Structural Root primitive
+
+- null (typeof null === "object"). A special primitive type whose value indicates that object is not inherited. 
+
+<Notes>
+undefined - means something that does not yet exist or doesn't exist anymore <br/>
+null - something (a structure) that exists but its empty
+</Notes>
+
+---
+
+Why are we looking at data types? 
+
+I thought this was a `useCallback/useMemo` talk. 🤔
+
+---
+
+By value vs By reference.
+
+Primitive types are stored by value. 
+
+```js
+
+let a = 10;
+let b = 10;
+console.log(a); // logs 10
+console.log(b); // logs 10
+console.log(a == b); // logs true
+console.log(a === b); // logs true
+
+const getAge = ()=>10;
+const c = getAge();
+const d = getAge();
+console.log(c); // logs 10
+console.log(d); // logs 10
+console.log(c == d); // logs true
+console.log(c === d); // logs true
+
+```
+
+<Notes>
+If two or more variables holding a primitive type have the same value, they will be equal to each other
+</Notes>
+
+---
+
+Structural types are stored by value
+
+```
+const a = { age: 12};
+const b = { age: 12};
+console.log(a); // logs { age: 12 }
+console.log(b); // logs { age: 12 }
+console.log(a == b); // logs false
+console.log(a === b); // logs false
+
+const getInfo = ()=>({ age: 12 });
+const c = getInfo(); 
+const d = getInfo();
+console.log(c); // logs { age: 12 }
+console.log(d); // logs { age: 12 }
+console.log(c == d); // logs false
+console.log(c === d); // logs false
+console.log(Object.is(c,d)) // logs false
+```
+
+<Notes>
+c and d are created by the same function but different function call. Every time we call the function a new object will be created.
+They hold the same value but are stored at different locations in memory hence shallow comparison of the two objects will be false
+</Notes>
+
+---
+
+Mutating values stored by reference
+
+```
+let a = { age: 12 };
+let b = a;
+b.height = 15;
+console.log(a === b); // logs true
+console.log(a); // logs {age: 12, height: 15}
+console.log(b); // logs {age: 12, height: 15}
+
+b = { age: 12};
+console.log(a === b); // logs false
+console.log(a); // logs {age: 12, height: 15}
+console.log(b); // logs {age: 12}
+```
+<Notes>
+The reference of a is assigned to b. And when b is changed. The value that that address in memory is changed hence a is changed.
+If we assign a a new value to b, b will now have a new address in memory
+</Notes>
+
+

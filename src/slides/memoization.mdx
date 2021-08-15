@@ -1,0 +1,35 @@
+Memoization
+
+Storing the result of expensive function calls and returning the cached values when the same inputs occur again
+
+For it to work, the memoized function should be a pure function.
+
+---
+
+What about purity?
+
+A function is pure iff:-
+- It returns the same output for the same inputs
+- It doesn't modify anything outside its scope i.e changing a global, variable, logging, network calls e.t.c
+
+---
+
+Memoization example
+
+```jsx
+const cache = {}
+
+const addOne = (num)=>{
+    // return cached value
+    if(num in cache) return cache[num];
+
+    const result = num + 1; // expensive calculation
+    cache[num] = result; // cache value depending on args
+    return result;
+}
+```
+
+---
+
+Demo
+

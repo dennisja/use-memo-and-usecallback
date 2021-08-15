@@ -4,9 +4,12 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "mdx-deck src/slides/deck.mdx"
+    "start": "mdx-deck src/slides/index.js"
   },
   "devDependencies": {
-    "mdx-deck": "^4.1.1"
+    "mdx-deck": "^1.6.7"
+  },
+  "dependencies": {
+    "react-syntax-highlighter": "^15.4.4"
   }
 }
