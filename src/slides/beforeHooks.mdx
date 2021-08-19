@@ -1,7 +1,89 @@
+import { Notes } from 'mdx-deck';
+
+Well done on the demo, show me the hooks!!!
+
 ---
 
-What about the hooks?
+I wish i could, 😅
 
 ---
 
 Before hooks
+
+---
+
+Class components
+
+Could only re render if there props/state changed if they are pure components or always otherwise
+
+<Notes>
+  - PureComponents just class components that extend the PureComponent class
+  from react <br />- Other components just extend Component
+</Notes>
+
+---
+
+Demo
+
+PureComponent vs Component re render
+
+<Notes>
+  Talk about how pure component only re renders if the parent component changes
+</Notes>
+
+---
+
+Demo
+
+PureComponent & shouldComponentUpdate
+
+<Notes>
+  - We have two pure components one with object props and one with individual
+  props <br />- The one with object props can be stopped from re rendering by
+  converting it to inherit from Component and implement `shouldComponentUpdate`
+  or just use memoization.
+</Notes>
+
+---
+
+shouldComponentUpdate pitfalls
+
+- Comparison could become tricky if the props to depend on become many
+- Maintainability was hard as every time you introduce/remove a prop, this method might have to be updated as well
+
+e.t.c (doesn't mean "End of my" typing capacity)
+
+---
+
+What if there was another way to prevent the re renders?
+
+Only if you could read the memo. 📋
+
+---
+
+Memoizaton demo
+
+<Notes>
+  - The component re renders whenever the parent component changes <br /> - The
+  behaviour can be changed if we memoize the object prop passed to the component
+</Notes>
+
+---
+
+Memoization
+
+- Maintainability
+- Using memoize one is the equivalent of using the `useMemo` hook
+- We didn't need useCallback because the event handles were cached on the component instance
+
+> Note: The props a function depend on to recalculate the values have to be passed as params to the memoized function
+
+<Notes>
+  - It comes at a cost of memory <br />- Its easier to maintain in comparison to
+  shouldComponentUpdate
+  <br />
+</Notes>
+
+---
+
+What about functional components?

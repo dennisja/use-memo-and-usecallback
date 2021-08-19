@@ -1,5 +1,5 @@
 import theme from 'mdx-deck/themes';
-import okaidia from 'react-syntax-highlighter/dist/esm/styles/prism/okaidia';
+import okaidia from 'react-syntax-highlighter/styles/prism/okaidia';
 
 export default {
   ...theme,
@@ -9,7 +9,7 @@ export default {
     link: '#40C4FF',
   },
   prism: {
-    style : okaidia ,
+    style: okaidia,
   },
   strong: {
     color: 'yellow',
