@@ -104,10 +104,12 @@ console.log(Object.is(c,d)) // logs false
 ```
 
 <Notes>
-  c and d are created by the same function but different function call. Every
+  - c and d are created by the same function but different function call. Every
   time we call the function a new object will be created. They hold the same
   value but are stored at different locations in memory hence shallow comparison
-  of the two objects will be false
+  of the two objects will be false <br />- In the context of react, if you have
+  an object or array in a function component, a new value will be created
+  whenever this function is re rendered except if you memoize it
 </Notes>
 
 ---

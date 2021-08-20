@@ -1,4 +1,4 @@
-import { PureComponent, Component } from 'react';
+import { Component, memo, useState } from 'react';
 import { clampColorIndex, getColor } from '../../utils/color';
 import memoize from 'memoize-one';
 
@@ -11,29 +11,59 @@ interface CounterProps {
   resetStep: () => void;
 }
 
-class Counter extends PureComponent<
-  { counterConfig: CounterProps },
-  CounterState
-> {
-  state = { count: 0 };
+function Counter({ step, resetStep }: CounterProps) {
+  const [count, setCount] = useState<number>(0);
 
-  increment = (): void => {
-    this.setState(state => ({
-      count: state.count + this.props.counterConfig.step,
-    }));
+  const increment = (): void => {
+    setCount(prev => prev + step);
   };
 
-  render() {
-    console.log('rendering counter with object props');
-    return (
-      <div>
-        <button onClick={this.increment}>Increment</button>
-        <button onClick={this.props.counterConfig.resetStep}>Reset Step</button>
-        <p>Count: {this.state.count}</p>
-      </div>
-    );
-  }
+  console.log('rendering counter');
+
+  return (
+    <div>
+      <button onClick={increment}>Increment</button>
+      <button onClick={resetStep}>Reset Step</button>
+      <p>Count: {count}</p>
+    </div>
+  );
 }
+
+function CounterWithConfig({
+  counterConfig: { step, resetStep },
+}: {
+  counterConfig: CounterProps;
+}) {
+  const [count, setCount] = useState<number>(0);
+
+  const increment = (): void => {
+    setCount(prev => prev + step);
+  };
+
+  console.log('rendering counter with config');
+
+  return (
+    <div>
+      <button onClick={increment}>Increment</button>
+      <button onClick={resetStep}>Reset Step</button>
+      <p>Count: {count}</p>
+    </div>
+  );
+}
+
+const MemoizedCounter = memo(Counter);
+
+function propsAreEqual(
+  prevProps: { counterConfig: CounterProps },
+  nextProps: { counterConfig: CounterProps },
+) {
+  return (
+    prevProps.counterConfig.step === nextProps.counterConfig.step &&
+    prevProps.counterConfig.resetStep === nextProps.counterConfig.resetStep
+  );
+}
+
+const MemoizedCounterWithConfig = memo(CounterWithConfig, propsAreEqual);
 
 export default class extends Component<
   {},
@@ -71,8 +101,11 @@ export default class extends Component<
             this.setState({ counterStep: Number.parseInt(e.target.value) })
           }
         />
-
         <Counter
+          step={this.state.counterStep}
+          resetStep={this.resetCounterStep}
+        />
+        <CounterWithConfig
           counterConfig={this.getCounterConfig(
             this.state.counterStep,
             this.resetCounterStep,

@@ -41,12 +41,12 @@ class Counter extends PureComponent<
     }));
   };
 
-  //   shouldComponentUpdate(nextProps: { counterConfig: CounterProps }): boolean {
-  //     return (
-  //       nextProps.counterConfig.step !== this.props.counterConfig.step ||
-  //       nextProps.counterConfig.resetStep !== this.props.counterConfig.resetStep
-  //     );
-  //   }
+  shouldComponentUpdate(nextProps: { counterConfig: CounterProps }): boolean {
+    return (
+      nextProps.counterConfig.step !== this.props.counterConfig.step ||
+      nextProps.counterConfig.resetStep !== this.props.counterConfig.resetStep
+    );
+  }
 
   render() {
     console.log('rendering counter with object props');

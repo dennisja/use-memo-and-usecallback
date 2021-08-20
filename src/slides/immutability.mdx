@@ -4,8 +4,7 @@ Immutability
 
 Data structures whose structure or the data they hold can't be changed are known as Immutable data structures.
 
-Structural types can be mutated as seen before. 
-
+Structural types can be mutated as seen before.
 
 But maybe there is a way to enforce Immutability in JS......?
 
@@ -21,22 +20,24 @@ const c = b;
 
 // instead of
 b.height = 15;
-console.log(Object.is(c,b)); // true
+console.log(Object.is(c, b)); // true
 
 // do
-b = {...b, height: 15}; // spread syntax
-console.log(Object.is(c,b)); // false
+b = { ...b, height: 15 }; // spread syntax
+console.log(Object.is(c, b)); // false
 
-// or 
+// or
 b = Object.assign({}, b, { height: 15 }); // don't forget the first empty object
-console.log(Object.is(c,b)); // false
+console.log(Object.is(c, b)); // false
 ```
 
-
 <Notes>
-One way to enforce immutability is by ensuring that we create a new data structure instead of changing the one that already exists.
-<br />
-Using the spread syntax or Object.assign ensures  creating a new value in memory whose address is assigned to b, hence b no longer references its initial address in memory but a new one.
+  One way to enforce immutability is by ensuring that we create a new data
+  structure instead of changing the one that already exists.
+  <br />
+  Using the spread syntax or Object.assign ensures creating a new value in
+  memory whose address is assigned to b, hence b no longer references its
+  initial address in memory but a new one.
 </Notes>
 
 ---
@@ -44,25 +45,28 @@ Using the spread syntax or Object.assign ensures  creating a new value in memory
 Arrays
 
 ```js
-let a = [{name: "a"}, {name: "d"}];
+let a = [{ name: 'a' }, { name: 'd' }];
 const b = a;
 
 // instead of
-a.push({ name: "e"})
+a.push({ name: 'e' });
 console.log(Object.is(a, b)); // true
 console.log(a); // [{name: "a"}, {name: "d"}, { name: "e"}]
 console.log(b); // [{name: "a"}, {name: "d"}, { name: "e"}]
 
 // do
-a = [...a, {name: "z"}]; // or a.concat([{ name: "z" }])
-console.log(Object.is(a, b)) // false
+a = [...a, { name: 'z' }]; // or a.concat([{ name: "z" }])
+console.log(Object.is(a, b)); // false
 console.log(b); // [{name: "a"}, {name: "d"}, { name: "e"}]
 console.log(a); // [{name: "a"}, {name: "d"}, { name: "e"}, {name: "z"}]
 ```
 
 <Notes>
-- When clone a into a new early before modification, we ensure that its initial value is never modified <br />
-- In this case our target in on the outside data structure (the array) when adding or removing elements from its we ensure its immutable by creating a new array and add a new value to it instead of just adding the new value to the already existing array.
+  - When clone a into a new early before modification, we ensure that its
+  initial value is never modified <br />- In this case our target in on the
+  outside data structure (the array) when adding or removing elements from its
+  we ensure its immutable by creating a new array and add a new value to it
+  instead of just adding the new value to the already existing array.
 </Notes>
 
 ---
@@ -70,19 +74,19 @@ console.log(a); // [{name: "a"}, {name: "d"}, { name: "e"}, {name: "z"}]
 Nested structural types
 
 ```js
-let a = [{name: "a"}, {name: "d"}];
+let a = [{ name: 'a' }, { name: 'd' }];
 const b = a;
 
-// instead of 
-a[0].name = "bill"
-console.log(Object.is(a, b)) // true
+// instead of
+a[0].name = 'bill';
+console.log(Object.is(a, b)); // true
 console.log(a); // [{name: "bill"}, {name: "d"}]
 console.log(b); // [{name: "bill"}, {name: "d"}]
-console.log(Object.is(a[0],b[0])); // true
+console.log(Object.is(a[0], b[0])); // true
 
 // do
-a = a.map((p, i)=>i === 0?{...p, name: "num"}:p);
-console.log(Object.is(a, b)) // false
+a = a.map((p, i) => (i === 0 ? { ...p, name: 'num' } : p));
+console.log(Object.is(a, b)); // false
 console.log(a); // [{name: "num"}, {name: "d"}]
 console.log(b); // [{name: "bill"}, {name: "d"}]
 Object.is(a[0], b[0]); // false
@@ -94,18 +98,19 @@ Why immutability?
 
 - Certain features like undo or redo which might require access to the state of a data structure at a particular point in time become easy to implement
 - Some complex things become simple and are faster to do e.g detecting whether something changed.
+- React does reference comparisons for structural types
 
-> It comes at a memory cost. 
+> It comes at a memory cost.
 
 <Notes>
-- Its just enough to use `Object.is` instead of looping through items of an array or keys of an object to determine whether anything changed. <br />
-- Immutable data structures take a lot of memory hence using them is trading memory for time under the hood
+  - Its just enough to use `Object.is` instead of looping through items of an
+  array or keys of an object to determine whether anything changed. <br />-
+  Immutable data structures take a lot of memory hence using them is trading
+  memory for time under the hood
 </Notes>
 
 ---
 
 Take me to hooks?
 
-
 🪝
-

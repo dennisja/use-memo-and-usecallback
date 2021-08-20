@@ -1,0 +1,123 @@
+import { Notes } from 'mdx-deck';
+
+Fuctional components
+
+Were state less before introduction of hooks.
+Always re rendered when there parents did until introduction of React.memo
+
+---
+
+Demo
+
+<Notes>
+  - React.memo is a HOC <br /> - Only checks for prop changes
+  <br /> - It shallow compares all objects passed to the component as props
+  <br /> - Takes a function to compare props returns true if the previousProps
+  and the nextProps are equal
+  <br />- Demo starts with a counter that re renders every time the parent changes.
+  (use memoized counter to stop this)
+</Notes>
+
+---
+
+React.memo...
+
+Using it with propsAreEqual is similar to using a class component with componentDidUpdate.
+Hard to maintain and if you forget to update propsAreEqual when you introduce a new prop, you may introduce a bug.
+Also deep comparisons are kind of expensive and hard to do.
+
+<Notes>
+  - Continue the demo and change memoized counter to take an object. To show
+  that it continues to re render - <br /> Use propsAre equal to fix that
+</Notes>
+
+---
+
+Conclusions
+
+- PureComponents and memoization appear to be more maintainable than Component and shouldComponentUpdate
+- React.memo and memoization also appear to be more maintainable than using React.memo and propsAreEqual
+- For memoization to work:-
+  - The variables used to re calculate a value should be passed as props
+  - Avoid passing structural types unless they don't change i.e if you pass an array, object or function it should be a cached value or else memoization won't work.
+
+---
+
+What if memoization was inbuilt into react?
+
+---
+
+useMemo
+
+```js
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```
+
+Returns a memoized value.
+Useful when:-
+
+- passing such a value to child components that rely on reference equality to prevent re rendering
+- passing such a value to other hooks that depend on reference equality to rerun e.g. useCallback, useEffect, useMemo
+- computing an expensive operation that may block rendering
+
+<Notes>
+  - if changes in deps can't be detected by reference equality it might be buggy{' '}
+  <br /> - if you don't pass the correct dependencies it might as well be buggy{' '}
+  <br /> if you miss a dependence, you might get stale values
+</Notes>
+---
+
+useCallback
+
+```js
+const memoizedCallback = useCallback(() => {
+  doSomething(a, b);
+}, [a, b]);
+```
+
+Useful when passing callbacks to:-
+
+- optimized child components that rely on reference equality to prevent unnecessary re renders
+- other hooks that depend on reference equality to rerun i.e useEffect, useMemo, useCallback
+- when you just want to prevent creating a new function every time a component is re rendered
+
+<Notes>
+  - Takes a function and its dependencies and returns a memoized version of the
+  callback. Only changes if deps change.
+  <br /> - The changes in dependencies should be detected by reference equality i.e
+  passing an array/object/function that is generated every time a component re renders
+  will generate a new cal back every time hence useCallback will be of no purpose
+  <br /> - Was not needed in class components because most of the times
+  callbacks could be cached on the component instance <br /> If you miss a
+  dependency, you might get a stale callback
+</Notes>
+
+---
+
+Demo
+
+---
+
+Are these required?
+Yes and no.
+
+<Notes>
+  - React works without these hooks but you might land into issues where. - you
+  have unnecessary re renders, these might not be problematic but might cause
+  certain issues if you are implementing something like tracking, you might end
+  up with the wrong analytics <br />- If you want to run an effect but depends
+  on an un memoized value, it might fire many more times that you expect it to
+  <br />- If you pass un memoized structural values to a component, it will always
+  re render even if you don't want it to unless you do a deep comparison which we
+  don't want
+</Notes>
+
+---
+
+To be continued.....
+
+---
+
+🕊
+
+bye for now
